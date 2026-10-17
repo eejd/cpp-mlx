@@ -352,13 +352,10 @@ else()
   set(MLX_BUILD_ACCELERATE OFF)
 endif()
 
-message(STATUS "Downloading json")
-FetchContent_Declare(
-  json
-  URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
-FetchContent_MakeAvailable(json)
+message(STATUS "Finding json")
+find_package(nlohmann_json REQUIRED)
 target_include_directories(
-  mlx PRIVATE $<BUILD_INTERFACE:${json_SOURCE_DIR}/single_include/nlohmann>)
+  mlx PRIVATE $<BUILD_INTERFACE:$<TARGET_PROPERTY:nlohmann_json::nlohmann_json,INTERFACE_INCLUDE_DIRECTORIES>/nlohmann>)
 
 # Add standalone JACCL library (RDMA over Thunderbolt distributed backend)
 if(MLX_BUILD_CPU

@@ -26,6 +26,7 @@ target_sources(
 add_library(mlx_version OBJECT ${CMAKE_CURRENT_SOURCE_DIR}/version.cpp)
 target_compile_definitions(mlx_version PRIVATE MLX_VERSION="${MLX_VERSION}")
 target_include_directories(mlx_version PRIVATE ${PROJECT_SOURCE_DIR})
+target_include_directories(mlx BEFORE PRIVATE ${PROJECT_SOURCE_DIR})
 target_link_libraries(mlx PRIVATE $<BUILD_INTERFACE:mlx_version>)
 
 # Do not export symbols by default.
