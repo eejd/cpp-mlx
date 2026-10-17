@@ -15,11 +15,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(FetchContent)
 
 # nlohmann/json for device file parsing
-message(STATUS "Downloading json for JACCL")
-FetchContent_Declare(
-  json
-  URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
-FetchContent_MakeAvailable(json)
+message(STATUS "Finding json")
+find_package(nlohmann_json REQUIRED)
 
 # Check platform and SDK version requirements
 if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -56,7 +53,7 @@ target_include_directories(
                $<INSTALL_INTERFACE:include>)
 
 target_include_directories(
-  jaccl PRIVATE $<BUILD_INTERFACE:${json_SOURCE_DIR}/single_include/nlohmann>)
+  jaccl PRIVATE $<BUILD_INTERFACE:$<TARGET_PROPERTY:nlohmann_json::nlohmann_json,INTERFACE_INCLUDE_DIRECTORIES>/nlohmann>)
 
 target_compile_features(jaccl PUBLIC cxx_std_20)
 
